@@ -1,12 +1,16 @@
 # Smart Tourist Management System
 
-A desktop-based tourism management application developed using Java Swing and MySQL. The system provides an integrated platform for managing tourists, hotels, and bookings through an intuitive graphical user interface.
+A desktop-based tourism management application developed using **Java Swing** and **MySQL**. The system provides an integrated platform for managing tourists, hotels, and bookings through an intuitive graphical user interface.
+
+---
 
 ## Project Overview
 
-The Smart Tourist Management System is designed to simplify tourism-related operations by centralizing tourist records, hotel information, and booking management. The application enables efficient data handling through a secure and user-friendly dashboard.
+The Smart Tourist Management System is designed to simplify tourism-related operations by centralizing tourist records, hotel information, and booking management. The application enables efficient data handling through a user-friendly dashboard and real-time database integration.
 
-## Key Features
+---
+
+## Features
 
 ### Tourist Management
 
@@ -32,7 +36,9 @@ The Smart Tourist Management System is designed to simplify tourism-related oper
 * Total tourist count
 * Total hotel count
 * Total booking count
-* Real-time database integration
+* Real-time statistics display
+
+---
 
 ## Technologies Used
 
@@ -43,24 +49,142 @@ The Smart Tourist Management System is designed to simplify tourism-related oper
 * Object-Oriented Programming (OOP)
 * VS Code
 
+---
+
+## Project Structure
+
+```text
+Smart-Tourist-Management-System
+│
+├── screenshots
+│
+├── src
+│   ├── db
+│   ├── model
+│   ├── ui
+│   └── util
+│
+├── README.md
+└── .gitignore
+```
+
+---
+
 ## Database Design
 
-The application uses a relational database structure consisting of:
+Database Name:
 
-* tourists
-* hotels
-* bookings
+```sql
+tourist_system
+```
 
-with proper relationships maintained using primary and foreign keys.
+Tables:
+
+```sql
+tourists
+hotels
+bookings
+```
+
+Relationships:
+
+* Primary Keys
+* Foreign Keys
+* Relational Database Structure
+
+---
+
+## Screenshots
+
+### Login
+
+![Login](screenshots/login.png)
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Add Tourist
+
+![Add Tourist](screenshots/add-tourist.png)
+
+### View Tourists
+
+![View Tourists](screenshots/view-tourists.png)
+
+### Add Hotel
+
+![Add Hotel](screenshots/add-hotel.png)
+
+### View Hotels
+
+![View Hotels](screenshots/view-hotels.png)
+
+### Add Booking
+
+![Add Booking](screenshots/add-booking.png)
+
+### View Bookings
+
+![View Bookings](screenshots/view-bookings.png)
+
+---
+
+## Installation & Setup
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/your-username/Smart-Tourist-Management-System.git
+```
+
+### 2. Create Database
+
+```sql
+CREATE DATABASE tourist_system;
+```
+
+### 3. Create Required Tables
+
+Import the provided SQL schema or create the tables manually.
+
+### 4. Download MySQL Connector/J
+
+Download MySQL Connector/J from:
+
+https://dev.mysql.com/downloads/connector/j/
+
+Add the JAR file to your project's library path.
+
+### 5. Configure Database Credentials
+
+Update database credentials inside:
+
+```text
+src/db/DBConnection.java
+```
+
+### 6. Run Application
+
+Run:
+
+```text
+Main.java
+```
+
+---
 
 ## Learning Outcomes
 
 * Java GUI Development using Swing
-* Database Connectivity using JDBC
+* JDBC Database Connectivity
 * CRUD Operations
-* Object-Oriented Design
-* MVC-inspired Project Structure
+* Object-Oriented Programming
+* DAO Pattern Implementation
 * MySQL Database Management
+* Desktop Application Development
+
+---
 
 ## Future Enhancements
 
@@ -68,22 +192,21 @@ with proper relationships maintained using primary and foreign keys.
 * Online Hotel Booking Integration
 * Tourist Recommendation Engine
 * Interactive Maps Integration
-* Report Generation and Export Features
+* PDF Report Generation
+* Data Export Features
 
-## Dependencies
-
-- Java JDK 17+
-- MySQL Server
-- MySQL Connector/J 9.6.0
-
-## Database Driver
-
-Download MySQL Connector/J and add it to your project libraries before running the application.
+---
 
 ## Author
 
 **Nisarg Chauhan**
 
-Computer Science & Design (CSD)
+Computer Science & Design
 
-Sardar Valabhbhai Patel Institute of Technology, Vasad
+Sardar Vallabhbhai Patel Institute of Technology, Vasad
+
+---
+
+## License
+
+This project is developed for educational and portfolio purposes.
