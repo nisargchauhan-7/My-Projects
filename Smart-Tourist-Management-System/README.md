@@ -110,7 +110,7 @@ Relationships:
 
 ### View Tourists
 
-![View Tourists](screenshots/view-tourists.png)
+![View Tourists](screenshots/view-tourist.png)
 
 ### Add Hotel
 
@@ -118,7 +118,7 @@ Relationships:
 
 ### View Hotels
 
-![View Hotels](screenshots/view-hotels.png)
+![View Hotels](screenshots/view-hotel.png)
 
 ### Add Booking
 
@@ -126,7 +126,7 @@ Relationships:
 
 ### View Bookings
 
-![View Bookings](screenshots/view-bookings.png)
+![View Bookings](screenshots/view-booking.png)
 
 ---
 
