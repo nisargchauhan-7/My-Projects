@@ -1,1 +1,13 @@
+body{
+    background:#f8f9fa;
+}
 
+h1{
+    color:#dc3545;
+    font-weight:700;
+    margin-top:50px;
+}
+
+.lead{
+    font-size:20px;
+}
