@@ -70,10 +70,20 @@ with proper relationships maintained using primary and foreign keys.
 * Interactive Maps Integration
 * Report Generation and Export Features
 
+## Dependencies
+
+- Java JDK 17+
+- MySQL Server
+- MySQL Connector/J 9.6.0
+
+## Database Driver
+
+Download MySQL Connector/J and add it to your project libraries before running the application.
+
 ## Author
 
-Nisarg Chauhan
+**Nisarg Chauhan**
 
-Computer Science & Design
+Computer Science & Design (CSD)
 
 Sardar Valabhbhai Patel Institute of Technology, Vasad
