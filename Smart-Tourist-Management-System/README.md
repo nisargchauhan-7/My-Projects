@@ -201,7 +201,7 @@ Main.java
 
 **Nisarg Chauhan**
 
-Computer Science & Design
+Computer Science & Design (CSD)
 
 Sardar Vallabhbhai Patel Institute of Technology, Vasad
 
