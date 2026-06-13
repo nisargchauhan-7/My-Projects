@@ -1,60 +1,268 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Emergency Request</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Emergency Blood Request - SBDEHAS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
-<div class="container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
 
-<h2>Emergency Blood Request</h2>
+        <div class="container">
 
-<form>
+            <a class="navbar-brand" href="index.html">SBDEHAS</a>
 
-<div class="mb-3">
-<label>Patient Name</label>
-<input type="text" class="form-control">
-</div>
+            <div>
 
-<div class="mb-3">
-<label>Blood Group Required</label>
+                <a href="index.html" class="btn btn-light btn-sm me-2">Home</a>
 
-<select class="form-select">
-<option>A+</option>
-<option>A-</option>
-<option>B+</option>
-<option>B-</option>
-<option>AB+</option>
-<option>AB-</option>
-<option>O+</option>
-<option>O-</option>
-</select>
+                <a href="donor-search.html" class="btn btn-light btn-sm me-2">Donors</a>
 
-</div>
+                <a href="hospital-search.html" class="btn btn-light btn-sm me-2">Hospitals</a>
 
-<div class="mb-3">
-<label>Hospital Name</label>
-<input type="text" class="form-control">
-</div>
+                <a href="login.html"    id="loginBtn"   class="btn btn-light btn-sm">Login</a>
 
-<div class="mb-3">
-<label>Contact Number</label>
-<input type="text" class="form-control">
-</div>
+            </div>
 
-<button class="btn btn-danger">
-Submit Request
-</button>
+        </div>
 
-</form>
+    </nav>
 
-</div>
+    <div class="container mt-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card shadow">
+
+                    <div class="card-body">
+
+                        <h2 class="text-center text-danger mb-4">
+                            
+                            <div class="alert alert-warning">
+
+                                Emergency requests are given highest priority.
+
+                            </div>
+
+                        </h2>
+
+                        <form id="emergencyForm">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">Patient Name</label>
+
+                                <input type="text" id="patientName" class="form-control" placeholder="Enter Patient Name" required>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Required Blood Group
+                                </label>
+
+                                <select id="bloodGroup" class="form-select" required>
+
+                                    <option>Select Blood Group</option>
+
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Hospital Name
+                                </label>
+
+                                <input type="text" id="hospitalName" class="form-control" placeholder="Enter Hospital Name" required>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Contact Number
+                                </label>
+
+                                <input type="tel" id="contactNumber" class="form-control" placeholder="Enter Contact Number" required>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Emergency Notes
+                                </label>
+
+                                <textarea   class="form-control"    rows="4"    placeholder="Describe the emergency situation"></textarea>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">Required Units</label>
+
+                                <input  type="number" class="form-control"    placeholder="Enter Blood Units">
+
+                            </div>
+
+                            <button type="submit"   class="btn btn-danger w-100">Submit Emergency Request</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="alert alert-warning mt-4">
+
+            <strong>Emergency Notice:</strong>
+                This request form is for demonstration purposes. In the final system, requests will be stored in the database and visible to administrators.
+
+        </div>
+
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+
+        <p class="mb-1">
+            Smart Blood Donor & Emergency Healthcare Assistance System
+        </p>
+
+        <p class="small mb-0">
+            Developed for GTU Societal Internship Project
+        </p>
+
+    </footer>
+
+    <script>
+
+        document
+        .getElementById("emergencyForm")
+        .addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+            let patient =
+            document.getElementById("patientName").value;
+
+            let blood =
+            document.getElementById("bloodGroup").value;
+
+            let hospital =
+            document.getElementById("hospitalName").value;
+
+            let contact =
+            document.getElementById("contactNumber").value;
+
+            if(patient.trim() === "")
+            {
+                alert("Enter Patient Name");
+                return;
+            }
+
+            if(blood === "Select Blood Group")
+            {
+                alert("Select Blood Group");
+                return;
+            }
+
+            if(hospital.trim() === "")
+            {
+                alert("Enter Hospital Name");
+                return;
+            }
+
+            if(contact.length !== 10)
+            {
+                alert("Enter Valid 10 Digit Mobile Number");
+                return;
+            }
+
+            if(isNaN(contact))
+            {
+                alert("Phone Number must contain only digits");
+                return;
+            }
+
+            let requests =
+            JSON.parse(localStorage.getItem("requests"))
+            || [];
+
+            requests.push({
+
+                patient: patient,
+
+                blood: blood,
+
+                hospital: hospital,
+
+                contact: contact,
+
+                status: "Pending",
+
+                date:
+                new Date().toLocaleDateString()
+
+            });
+
+            localStorage.setItem(
+                "requests",
+                JSON.stringify(requests)
+            );
+
+            alert("Emergency Request Submitted");
+
+            this.reset();
+
+        });
+
+        let currentUser =
+        localStorage.getItem("currentUser");
+
+        let loginBtn =
+        document.getElementById("loginBtn");
+
+        if(currentUser)
+        {
+            loginBtn.innerHTML =
+            "Dashboard";
+
+            loginBtn.href =
+            "dashboard.html";
+        }
+
+    </script>
 
 </body>
 
