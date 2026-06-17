@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Donor Search - SBDEHAS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="index.html">
+                SBDEHAS
+            </a>
+
+            <div>
+
+                <a href="index.html" class="btn btn-light btn-sm me-2">Home</a>
+
+                <a href="hospital-search.html" class="btn btn-light btn-sm me-2">Hospitals</a>
+
+                <a href="emergency-request.html" class="btn btn-light btn-sm me-2">Emergency</a>
+
+                <a href="login.html"    id="loginBtn"   class="btn btn-light btn-sm">Login</a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="container mt-5">
+
+        <h2 class="mb-4 text-center text-danger">Search Blood Donors</h2>
+
+        <div class="alert alert-danger">
+
+            <strong>Emergency Search:</strong>
+
+            Search verified blood donors by blood group and city.
+
+        </div>
+
+        <form id="searchForm">
+
+            <div class="row">
+
+                <div class="col-md-5 mb-3">
+
+                    <label class="form-label">Blood Group</label>
+
+                    <select id="bloodGroup" class="form-select">
+
+                        <option>Select Blood Group</option>
+
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-5 mb-3">
+
+                    <label class="form-label">City</label>
+
+                    <input  type="text" id="city" class="form-control"    placeholder="Enter City">
+
+                </div>
+
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                    <button class="btn btn-danger w-100">Search</button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+        <h3 class="mt-5 mb-3">Matching Donors</h3>
+
+        <p class="text-muted">Showing available donors near your selected location.</p>
+
+        <table class="table table-hover table-bordered shadow">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>City</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="donorTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+
+        <p class="mb-1">
+            Smart Blood Donor & Emergency Healthcare Assistance System
+        </p>
+
+        <p class="small mb-0">
+            Developed for GTU Societal Internship Project
+        </p>
+
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+
+        let donorTable =
+        document.getElementById("donorTable");
+
+        function showDonors(data)
+        {
+            let donorTable =
+            document.getElementById("donorTable");
+
+            donorTable.innerHTML = "";
+
+            for(let i=0; i<data.length; i++)
+            {
+                donorTable.innerHTML += `
+                <tr>
+                    <td>${data[i].name}</td>
+                    <td>${data[i].blood_group}</td>
+                    <td>${data[i].city}</td>
+                    <td>${data[i].phone}</td>
+                    <td>Available</td>
+                </tr>
+                `;
+            }
+        }
+
+        let allDonors = [];
+
+        fetch("http://localhost:8000/api/donors")
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            console.log(data)
+
+            allDonors = data;
+
+            showDonors(allDonors);
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+        });
+
+        document
+        .getElementById("searchForm")
+        .addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+            let blood =
+            document.getElementById("bloodGroup").value;
+
+            let city =
+            document.getElementById("city").value
+            .toLowerCase();
+
+            let filtered =
+            allDonors.filter(donor =>
+
+            (blood === "Select Blood Group" || donor.blood_group === blood)
+
+            &&
+
+            donor.city.toLowerCase()
+            .includes(city)
+
+            );
+
+            console.log(allDonors);
+
+            showDonors(filtered);
+
+        });
+
+        currentUser =
+        localStorage.getItem("currentUser");
+
+        let loginBtn =
+        document.getElementById("loginBtn");
+
+        if(currentUser)
+        {
+            loginBtn.innerHTML =
+            "Dashboard";
+
+            loginBtn.href =
+            "dashboard.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

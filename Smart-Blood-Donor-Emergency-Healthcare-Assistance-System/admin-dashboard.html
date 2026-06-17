@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="#">
+                SBDEHAS Admin
+            </a>
+
+            <div class="ms-auto">
+
+                <button
+                class="btn btn-light"
+                onclick="logoutAdmin()">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="container mt-5">
+
+        <h1 class="mb-4">
+            Admin Dashboard
+        </h1>
+
+        <p class="text-muted mb-4">Monitor donors, hospitals, requests and healthcare resources.</p>
+
+        <div class="row">
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h2 id="adminDonorCount">0</h2>
+
+                        <p>Total Donors</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h2 id="adminHospitalCount">0</h2>
+
+                        <p>Hospitals</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h2 id="adminRequestCount">0</h2>
+
+                        <p>Emergency Requests</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h2 id="totalBeds" >0</h2>
+
+                        <p>Available Beds</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div class="col-md-4">
+
+                <div class="card shadow">
+
+                    <div class="card-body text-center">
+
+                        <h3 id="activeDonors" >0</h3>
+
+                        <p>Active Donors</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card shadow">
+
+                    <div class="card-body text-center">
+
+                        <h3 id="pendingRequests">0</h3>
+
+                        <p>Pending Requests</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card shadow">
+
+                    <div class="card-body text-center">
+
+                        <h3 id="adminMessageCount" >0</h3>
+
+                        <p>Contact Messages</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr class="mt-5">
+
+<h2 class="mb-4">
+
+Analytics Dashboard
+
+</h2>
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="card shadow p-3">
+
+            <h5>Blood Group Distribution</h5>
+
+            <canvas id="bloodChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow p-3">
+
+            <h5>System Statistics</h5>
+
+            <canvas id="statsChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <h3 class="mt-5">
+            Recent Blood Requests
+        </h3>
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <th>Patient</th>
+                    <th>Blood Group</th>
+                    <th>Hospital</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recentRequestTable">
+
+            </tbody>
+
+        </table>
+
+        <hr class="mt-5">
+
+        <h2 class="mb-3">Registered Donors</h2>
+
+        <div class="table-responsive">
+
+        <table class="table table-bordered table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="requestTable">
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+        <h2 class="mt-5">Hospitals</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Hospital Name</th>
+            <th>City</th>
+            <th>Available Beds</th>
+            <th>Contact</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="hospitalTable">
+
+    </tbody>
+
+</table>
+
+<h4 class="mt-4">Add Hospital</h4>
+
+<input type="text" id="hospitalName" placeholder="Hospital Name" class="form-control mb-2">
+
+<input type="text" id="hospitalCity" placeholder="City" class="form-control mb-2">
+
+<input type="number" id="hospitalBeds" placeholder="Available Beds" class="form-control mb-2">
+
+<input type="text" id="hospitalContact" placeholder="Contact" class="form-control mb-2">
+
+<button class="btn btn-success" onclick="addHospital()">
+    Add Hospital
+</button>
+
+        <hr class="mt-5">
+
+        <h2 class="mb-3">Emergency Requests</h2>
+
+        <div class="table-responsive">
+
+        <table class="table table-bordered table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Patient</th>
+                    <th>Blood Group</th>
+                    <th>Hospital</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="adminRequestTable">
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+        <button
+        class="btn btn-danger mb-3"
+        onclick="clearRequests()">
+
+        Clear All Requests
+
+        </button>
+
+    </div>
+
+<hr class="mt-5">
+
+<h2 class="mb-3">Registered Users</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="usersTable">
+
+    </tbody>
+
+</table>
+
+</div>
+
+    <hr class="mt-5">
+
+<h2 class="mb-3">
+Contact Messages
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Date</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="messageTable">
+
+    </tbody>
+
+</table>
+
+</div>
+
+<button
+class="btn btn-danger"
+onclick="clearMessages()">
+
+Clear All Messages
+
+</button>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+
+        <p class="mb-1">
+            Smart Blood Donor & Emergency Healthcare Assistance System
+        </p>
+
+        <p class="small mb-0">
+            Developed for GTU Societal Internship Project
+        </p>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        if(localStorage.getItem("adminLoggedIn") !== "true")
+{
+    alert("Please Login First");
+
+    window.location.href =
+    "admin-login.html";
+}
+
+function logoutAdmin()
+{
+    localStorage.removeItem(
+        "adminLoggedIn"
+    );
+
+    window.location.href =
+    "index.html";
+}
+
+function deleteDonor(id)
+{
+    if(confirm("Delete this donor?"))
+    {
+        fetch(`http://localhost:8000/api/donors/${id}`, {
+            method: "DELETE"
+        })
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            location.reload();
+
+        })
+
+        .catch(err => console.log(err));
+    }
+}
+
+function approveRequest(id)
+{
+    fetch(`http://localhost:8000/api/requests/approve/${id}`, {
+
+        method: "PUT"
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        location.reload();
+
+    })
+
+    .catch(err => console.log(err));
+}
+
+function rejectRequest(id)
+{
+    console.log("REJECT ID =", id);
+
+    if(!confirm("Reject this request?"))
+    {
+        return;
+    }
+
+    fetch(`http://localhost:8000/api/requests/reject/${id}`, {
+        method: "PUT"
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+function deleteRequest(id)
+{
+    if(!confirm("Delete this request?"))
+    {
+        return;
+    }
+
+    fetch(`http://localhost:8000/api/requests/${id}`, {
+
+        method: "DELETE"
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        location.reload();
+
+    })
+
+    .catch(err => console.log(err));
+}
+
+        /* Total Donors */
+
+fetch("http://localhost:8000/api/donors")
+
+.then(res => res.json())
+
+.then(data => {
+
+    document.getElementById("adminDonorCount")
+    .innerHTML = data.length;
+
+})
+
+.catch(err => console.log(err));
+
+/* Total Requests */
+
+fetch("http://localhost:8000/api/requests")
+
+.then(res => res.json())
+
+.then(data => {
+
+    document.getElementById("adminRequestCount")
+    .innerHTML = data.length;
+
+})
+
+.catch(err => console.log(err));
+
+/* Total Hospitals */
+
+fetch("http://localhost:8000/api/hospitals")
+
+.then(res => res.json())
+
+.then(data => {
+
+    document.getElementById("adminHospitalCount")
+    .innerHTML = data.length;
+
+})
+
+.catch(err => console.log(err));
+
+/* Total Beds */
+
+fetch("http://localhost:8000/api/hospitals")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let beds = 0;
+
+    data.forEach(hospital => {
+
+        beds += Number(hospital.available_beds);
+
+    });
+
+    document.getElementById("totalBeds")
+    .innerHTML = beds;
+
+})
+
+.catch(err => console.log(err));
+
+/* Registered Donors Table */
+
+fetch("http://localhost:8000/api/donors")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let donorTable =
+    document.getElementById("requestTable");
+
+    donorTable.innerHTML = "";
+
+    data.forEach(donor => {
+
+        donorTable.innerHTML += `
+
+        <tr>
+
+            <td>${donor.name}</td>
+
+            <td>${donor.blood_group}</td>
+
+            <td>${donor.city}</td>
+
+            <td>${donor.phone}</td>
+
+            <td>
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    onclick="deleteDonor(${donor.id})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+});
+
+/* Load Hospitals */
+
+function loadHospitals()
+{
+    fetch("http://localhost:8000/api/hospitals")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let table =
+        document.getElementById("hospitalTable");
+
+        table.innerHTML = "";
+
+        data.forEach(hospital => {
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>${hospital.hospital_name}</td>
+
+                <td>${hospital.city}</td>
+
+                <td>${hospital.available_beds}</td>
+
+                <td>${hospital.contact}</td>
+
+                <td>
+
+                    <button
+                    class="btn btn-success btn-sm"
+                    onclick="addBed(${hospital.id})">
+
+                    +
+
+                    </button>
+
+                    <button
+                    class="btn btn-warning btn-sm"
+                    onclick="removeBed(${hospital.id})">
+
+                    -
+
+                    </button>
+                    
+                    <button
+                    class="btn btn-danger btn-sm"
+                    onclick="deleteHospital(${hospital.id})">
+
+                    Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    });
+}
+
+loadHospitals();
+
+/* Add Hospitals */
+
+function addHospital()
+{
+    fetch("http://localhost:8000/api/hospitals", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            hospital_name:
+            document.getElementById("hospitalName").value,
+
+            city:
+            document.getElementById("hospitalCity").value,
+
+            available_beds:
+            document.getElementById("hospitalBeds").value,
+
+            contact:
+            document.getElementById("hospitalContact").value
+
+        })
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        loadHospitals();
+
+    });
+
+}
+
+/* Delete Hospitals */
+
+function deleteHospital(id)
+{
+    if(confirm("Delete Hospital?"))
+    {
+        fetch(`http://localhost:8000/api/hospitals/${id}`, {
+
+            method: "DELETE"
+
+        })
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            loadHospitals();
+
+        });
+
+    }
+}
+
+/* Add Bed */
+
+function addBed(id)
+{
+    fetch(`http://localhost:8000/api/hospitals/addBeds/${id}`, {
+
+        method: "PUT"
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        loadHospitals();
+
+    });
+}
+
+/* Remove Bed */
+
+function removeBed(id)
+{
+    fetch(`http://localhost:8000/api/hospitals/removeBeds/${id}`, {
+
+        method: "PUT"
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        loadHospitals();
+
+    });
+}
+
+/* Emergency Requests Table */
+
+fetch("http://localhost:8000/api/requests")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let requestTable =
+    document.getElementById("adminRequestTable");
+
+    requestTable.innerHTML = "";
+
+    data.forEach(request => {
+
+        requestTable.innerHTML += `
+
+        <tr>
+
+            <td>${request.patient_name}</td>
+
+            <td>${request.blood_group}</td>
+
+            <td>${request.hospital_name}</td>
+
+            <td>${request.status}</td>
+
+            <td>
+
+                <button
+                class="btn btn-success btn-sm"
+                onclick="approveRequest(${request.id})">
+
+                    Approve
+
+                </button>
+
+                <button
+                class="btn btn-warning btn-sm"
+                onclick="rejectRequest(${request.id})">
+                Reject
+                </button>
+
+                <button
+                class="btn btn-danger btn-sm"
+                onclick="deleteRequest(${request.id})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+});
+
+fetch("http://localhost:8000/api/donors")
+
+.then(res => res.json())
+
+.then(data => {
+
+    document.getElementById("activeDonors")
+    .innerHTML = data.length;
+
+});
+
+fetch("http://localhost:8000/api/requests")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let pending =
+    data.filter(r =>
+        r.status === "Pending"
+    );
+
+    document.getElementById("pendingRequests")
+    .innerHTML = pending.length;
+
+});
+
+/* Clear Requests */
+
+function clearRequests()
+{
+localStorage.removeItem("requests");
+
+alert("All Requests Cleared");
+
+location.reload();
+}
+
+/* Admin Logout */
+
+function adminLogout()
+{
+    localStorage.removeItem(
+        "adminLoggedIn"
+    );
+
+    window.location.href =
+    "index.html";
+}
+
+/* Admin Protection */
+
+let adminLoggedIn =
+localStorage.getItem("adminLoggedIn");
+
+if(adminLoggedIn !== "true")
+{
+alert("Admin Login Required");
+
+window.location.href =
+"admin-login.html";
+}
+
+let messages =
+JSON.parse(
+    localStorage.getItem("messages")
+)
+|| [];
+
+let messageTable =
+document.getElementById(
+    "messageTable"
+);
+
+messages.forEach(message => {
+
+    messageTable.innerHTML += `
+
+    <tr>
+
+        <td>${message.name}</td>
+
+        <td>${message.email}</td>
+
+        <td>${message.subject}</td>
+
+        <td>${message.message}</td>
+
+        <td>${message.date}</td>
+
+    </tr>
+
+    `;
+
+});
+
+function clearMessages()
+{
+    if(confirm("Delete all messages?"))
+    {
+        fetch("http://localhost:8000/api/messages")
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            data.forEach(msg => {
+
+                fetch(
+                    `http://localhost:8000/api/messages/${msg.id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            });
+
+            setTimeout(() => {
+
+                location.reload();
+
+            }, 500);
+
+        });
+
+    }
+}
+
+function deleteUser(id)
+{
+    if(confirm("Delete this user?"))
+    {
+        fetch(
+            `http://localhost:8000/api/users/${id}`,
+            {
+                method: "DELETE"
+            }
+        )
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            location.reload();
+
+        })
+
+        .catch(err => console.log(err));
+    }
+}
+
+/* Contact Messages */
+
+fetch("http://localhost:8000/api/messages")
+
+.then(res => res.json())
+
+.then(data => {
+
+    document
+    .getElementById("adminMessageCount")
+    .innerHTML = data.length;
+
+    let messageTable =
+    document.getElementById("messageTable");
+
+    messageTable.innerHTML = "";
+
+    data.forEach(msg => {
+
+        messageTable.innerHTML += `
+
+        <tr>
+
+            <td>${msg.name}</td>
+
+            <td>${msg.email}</td>
+
+            <td>${msg.subject}</td>
+
+            <td>${msg.message}</td>
+
+            <td>
+                ${msg.created_at ?
+                new Date(msg.created_at).toLocaleDateString() :
+                "-"}
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+})
+
+.catch(err => console.log(err));
+
+/* Load Users */
+
+fetch("http://localhost:8000/api/users")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let usersTable =
+    document.getElementById("usersTable");
+
+    usersTable.innerHTML = "";
+
+    data.forEach(user => {
+
+        usersTable.innerHTML += `
+
+        <tr>
+
+            <td>${user.id}</td>
+
+            <td>${user.fullname}</td>
+
+            <td>${user.email}</td>
+
+            <td>
+
+                <button
+                class="btn btn-danger btn-sm"
+                onclick="deleteUser(${user.id})">
+
+                Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+});
+
+fetch("http://localhost:8000/api/donors")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let bloodGroups = {};
+
+    data.forEach(donor => {
+
+        let group = donor.blood_group;
+
+        bloodGroups[group] =
+        (bloodGroups[group] || 0) + 1;
+
+    });
+
+    new Chart(
+
+        document.getElementById("bloodChart"),
+
+        {
+
+            type: "pie",
+
+            data: {
+
+                labels:
+                Object.keys(bloodGroups),
+
+                datasets: [{
+
+                    data:
+                    Object.values(bloodGroups)
+
+                }]
+
+            }
+
+        }
+
+    );
+
+});
+
+Promise.all([
+
+    fetch("http://localhost:8000/api/donors")
+    .then(res => res.json()),
+
+    fetch("http://localhost:8000/api/requests")
+    .then(res => res.json()),
+
+    fetch("http://localhost:8000/api/hospitals")
+    .then(res => res.json())
+
+])
+
+.then(([donors, requests, hospitals]) => {
+
+    new Chart(
+
+        document.getElementById("statsChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    "Donors",
+                    "Requests",
+                    "Hospitals"
+
+                ],
+
+                datasets: [{
+
+                    label:
+                    "System Data",
+
+                    data: [
+
+                        donors.length,
+                        requests.length,
+                        hospitals.length
+
+                    ]
+
+                }]
+
+            }
+
+        }
+
+    );
+
+});
+
+</script>
+
+</body>
+
+</html>

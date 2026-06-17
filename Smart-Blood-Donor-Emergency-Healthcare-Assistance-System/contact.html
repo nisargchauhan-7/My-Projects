@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Us - SBDEHAS</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+
+<div class="container">
+
+<a class="navbar-brand" href="index.html">
+SBDEHAS
+</a>
+
+<div>
+
+<a href="index.html" class="btn btn-light btn-sm me-2">
+Home
+</a>
+
+<a href="about.html" class="btn btn-light btn-sm me-2">
+About
+</a>
+
+<a href="login.html"    id="loginBtn"   class="btn btn-light btn-sm">
+    Login
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container mt-5">
+
+<h1 class="text-center text-danger mb-4">
+Contact Us
+</h1>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>Get In Touch</h4>
+
+<form id="contactForm">
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Full Name
+        </label>
+
+        <input
+        type="text"
+        id="name"
+        class="form-control"
+        required>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Email
+        </label>
+
+        <input
+        type="email"
+        id="email"
+        class="form-control"
+        required>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Subject
+        </label>
+
+        <input
+        type="text"
+        id="subject"
+        class="form-control"
+        required>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Message
+        </label>
+
+        <textarea
+        id="message"
+        class="form-control"
+        rows="5"
+        required></textarea>
+
+    </div>
+
+    <button
+    type="submit"
+    class="btn btn-danger">
+
+    Send Message
+
+    </button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>Contact Information</h4>
+
+<p>
+📍 Vadodara, Gujarat
+</p>
+
+<p>
+📧 support@sbdehas.com
+</p>
+
+<p>
+📞 +91 0000000000
+</p>
+
+<p>
+🕒 24/7 Emergency Support
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="bg-dark text-white text-center p-3 mt-5">
+
+<p class="mb-0">
+© 2026 Smart Blood Donor & Emergency Healthcare Assistance System
+</p>
+
+</footer>
+
+<script>
+
+document
+.getElementById("contactForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let name =
+    document.getElementById("name").value;
+
+    let email =
+    document.getElementById("email").value;
+
+    let subject =
+    document.getElementById("subject").value;
+
+    let message =
+    document.getElementById("message").value;
+
+    if(name.trim() === "")
+    {
+        alert("Enter Name");
+        return;
+    }
+
+    if(email.trim() === "")
+    {
+        alert("Enter Email");
+        return;
+    }
+
+    if(subject.trim() === "")
+    {
+        alert("Enter Subject");
+        return;
+    }
+
+    if(message.trim() === "")
+    {
+        alert("Enter Message");
+        return;
+    }
+
+    document
+    .getElementById("contactForm")
+    .addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        fetch("http://localhost:8000/api/messages", {
+
+            method: "POST",
+
+            headers: {
+            "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                name:
+                document.getElementById("name").value,
+
+                email:
+                document.getElementById("email").value,
+
+                subject:
+                document.getElementById("subject").value,
+
+                message:
+                document.getElementById("message").value
+
+            })
+
+        })
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            document
+            .getElementById("contactForm")
+            .reset();
+
+        })
+
+        .catch(err => {
+
+            console.log(err);
+
+            alert("Message Failed");
+
+        });
+
+    });
+
+});
+
+let currentUser =
+        localStorage.getItem("currentUser");
+
+        let loginBtn =
+        document.getElementById("loginBtn");
+
+        if(currentUser && loginBtn)
+{
+    loginBtn.innerHTML =
+    "Dashboard";
+
+    loginBtn.href =
+    "dashboard.html";
+}
+
+</script>
+
+</body>
+
+</html>

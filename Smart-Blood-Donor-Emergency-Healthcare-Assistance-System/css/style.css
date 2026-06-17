@@ -1,0 +1,208 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f8fc;
+    color:#2d3748;
+}
+
+/* Navbar */
+
+.navbar{
+    background:linear-gradient(135deg,#dc3545,#ff5c6c)!important;
+    padding:15px 0;
+    box-shadow:0 3px 15px rgba(0,0,0,0.08);
+}
+
+.navbar-brand{
+    font-size:1.6rem;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.navbar .btn{
+    border-radius:30px;
+    font-weight:500;
+    padding:8px 18px;
+}
+
+/* Hero */
+
+.hero{
+    min-height:80vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+    linear-gradient(rgba(220,53,69,.88),
+    rgba(255,92,108,.85)),
+    url("https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.hero h1{
+    font-size:4rem;
+    font-weight:700;
+}
+
+.hero p{
+    font-size:1.3rem;
+    margin-top:20px;
+}
+
+.hero .btn{
+    margin-top:20px;
+    border-radius:40px;
+    padding:12px 30px;
+    font-weight:600;
+}
+
+/* Sections */
+
+section{
+    padding:30px 0;
+}
+
+/* Cards */
+
+.card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card-body{
+    padding:30px;
+}
+
+.card h2{
+    font-weight:700;
+}
+
+.card h4,
+.card h5{
+    font-weight:600;
+}
+
+/* Forms */
+
+form{
+    margin-top:20px;
+}
+
+.form-control,
+.form-select{
+    border-radius:12px;
+    padding:12px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:#dc3545;
+}
+
+/* Buttons */
+
+.btn-danger{
+    background:#dc3545;
+    border:none;
+}
+
+.btn-danger:hover{
+    background:#c82333;
+}
+
+/* Tables */
+
+.table{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.table th{
+    background:#dc3545;
+    color:white;
+}
+
+/* Dashboard Cards */
+
+.dashboard-card{
+    text-align:center;
+    padding:25px;
+    border-radius:18px;
+    background:white;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+/* Footer */
+
+footer{
+    background:#1f2937;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:60px;
+}
+
+/* Page Headings */
+
+h1{
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+h2{
+    font-weight:700;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2.3rem;
+}
+
+.hero p{
+    font-size:1rem;
+}
+
+.navbar .btn{
+    margin-top:8px;
+}
+
+}
+
+.btn{
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.card{
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
