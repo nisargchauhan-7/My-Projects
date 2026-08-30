@@ -37,6 +37,66 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# ---------- SynapseEDU AI (Gemini via Emergent Universal key) ----------
+import asyncio
+import ai_service
+
+AI_TIMEOUT = 35
+
+class TutorRequest(BaseModel):
+    topicId: str | None = None
+    topicName: str
+    question: str
+    model: str | None = None
+
+class QuizRequest(BaseModel):
+    topicName: str
+    difficulty: str = "medium"
+    count: int = 5
+    model: str | None = None
+
+class ExtractRequest(BaseModel):
+    text: str = ""
+    model: str | None = None
+
+@api_router.get("/ai/status")
+async def ai_status():
+    return {"enabled": ai_service.enabled(), "model": ai_service.DEFAULT_MODEL,
+            "models": sorted(ai_service.ALLOWED_MODELS)}
+
+@api_router.post("/ai/tutor")
+async def ai_tutor(req: TutorRequest):
+    if not ai_service.enabled():
+        return {"error": "ai_disabled"}
+    try:
+        return await asyncio.wait_for(ai_service.tutor(req.topicName, req.question, req.model or ai_service.DEFAULT_MODEL), timeout=AI_TIMEOUT)
+    except Exception as e:
+        logger.exception("tutor failed")
+        return {"error": str(e)}
+
+@api_router.post("/ai/quiz")
+async def ai_quiz(req: QuizRequest):
+    if not ai_service.enabled():
+        return {"error": "ai_disabled", "questions": []}
+    try:
+        qs = await asyncio.wait_for(ai_service.quiz(req.topicName, req.difficulty, req.count, req.model or ai_service.DEFAULT_MODEL), timeout=AI_TIMEOUT)
+        return {"questions": qs, "model": req.model or ai_service.DEFAULT_MODEL}
+    except Exception as e:
+        logger.exception("quiz gen failed")
+        return {"error": str(e), "questions": []}
+
+@api_router.post("/ai/extract")
+async def ai_extract(req: ExtractRequest):
+    if not ai_service.enabled():
+        return {"error": "ai_disabled", "topics": []}
+    try:
+        topics = await asyncio.wait_for(ai_service.extract(req.text, req.model or ai_service.DEFAULT_MODEL), timeout=AI_TIMEOUT)
+        return {"topics": topics, "model": req.model or ai_service.DEFAULT_MODEL}
+    except Exception as e:
+        logger.exception("extract failed")
+        return {"error": str(e), "topics": []}
+
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():

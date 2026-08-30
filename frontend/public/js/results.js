@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, Store, DEMO, Mastery, gsap } = window;
 /* Quiz Results — score + analysis + what to do next */
 (function(){
   Layout.mount('quiz', { title:'Quiz Results', crumb:'Score → analysis → next action' });

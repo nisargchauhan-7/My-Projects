@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, DEMO, Mastery, gsap } = window;
 /* Quiz interface */
 (async function(){
   const topicParam = new URLSearchParams(location.search).get('topic');

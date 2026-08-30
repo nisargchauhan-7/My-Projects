@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, Store, Mastery, gsap } = window;
 /* Dashboard */
 (async function(){
   Layout.mount('dashboard', { title:'Dashboard', crumb:'Your learning overview' });

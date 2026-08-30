@@ -1,4 +1,4 @@
-/* global gsap, API, UI, Store */
+var { UI, API, Store, gsap } = window;
 /* Login + Register page with real email/password auth (client-side demo store or Node backend) */
 (function(){
   document.getElementById('logo-slot').innerHTML = UI.icons.logo;

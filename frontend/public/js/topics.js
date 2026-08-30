@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, Store, DEMO, Mastery, gsap } = window;
 /* Topic Explorer */
 (async function(){
   Layout.mount('topics', { title:'Topics', crumb:'Extracted from your material · weak areas flagged' });

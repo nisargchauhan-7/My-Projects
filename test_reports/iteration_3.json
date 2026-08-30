@@ -1,0 +1,33 @@
+{
+  "summary": "End-to-end verification of LIVE Gemini integration in SynapseEDU preview. Backend /api/ai/status, /api/ai/tutor, /api/ai/quiz, /api/ai/extract all responded with real Gemini 3 Flash output. Playwright covered: demo login -> dashboard; Tutor t5 live answer (flow vs congestion) with source badge, 'Gemini 3 Flash' badge and 'Grounded · Gemini' header badge; Tutor topic switch to AIMD returning a live AIMD Algorithm-grounded answer; Quiz t6 rendering 5 AI-generated MEDIUM questions with 4 options each -> submit -> results.html scored 5/5; Upload demo file -> analysis summary with 8 topics -> topics.html. Fallback safety: no blank screen at any point. All 6 requested scenarios pass.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Upload -> Extracted with Gemini chip", "issue": "Race condition: /api/ai/extract typically returns in ~5s while the processing animation runs only ~4.5s (5 steps x 900ms). aiTopics is usually still null when showSummary() renders, so the 'Extracted with Gemini' chip is not shown and the topics count falls back to the local DEMO.topics length (8). Functionally acceptable (spec allows fallback) but the LIVE chip is almost never visible.", "affected_selectors": ["upload.js showSummary()", ".chip.ai"]}
+    ],
+    "design_issues": [
+      {"screen": "tutor.html on topic switch", "issues": ["Greeting bubble ('Hi Demo... your tutor for Congestion Control') and textarea placeholder ('Ask about Congestion Control...') do not refresh when the tutor-topic dropdown changes, even though currentTopic and AI grounding update correctly. Minor UX inconsistency."]}
+    ]
+  },
+  "test_report_links": ["/app/test_reports/iteration_3.json"],
+  "action_items": [
+    "(Optional) Wait for the /api/ai/extract promise (with a timeout) before calling showSummary() so the 'Extracted with Gemini' chip and AI topic count reliably render on live paths; keep the demo fallback for slow/failed extraction.",
+    "(Nit) Re-render the greeting bubble and input placeholder when the tutor-topic <select> changes so the UI matches the new grounded topic."
+  ],
+  "critical_code_review_comments": [
+    "server.py routes return {'error': str(e)} with HTTP 200 on backend failures; consider returning HTTP 5xx / a structured error object so the frontend can detect and message real failures vs empty results.",
+    "upload.js fires aiExtract fire-and-forget with a fixed ~4.5s animation; the promise result frequently arrives after showSummary(), so the LIVE Gemini path is masked by the demo fallback. Consider Promise.race([extract, timeout]) before rendering the summary.",
+    "tutor.js does not update the greeting bubble or the input placeholder when the topic dropdown changes; only currentTopic is updated. Users may think grounding didn't switch.",
+    "ai_service.tutor uses a static session_id='synapseedu' shared across all users -- fine for a stateless single-shot preview but would leak context across users if the model retained session memory.",
+    "No request timeout on /api/ai/* endpoints -- a stalled Gemini call could hang the request indefinitely; add asyncio.wait_for with a sensible upper bound."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (4/4 endpoints)", "frontend": "100% (6/6 scenarios)"},
+  "test_credentials": "demo@synapse.edu / demo1234 (or 'Quick demo login' button).",
+  "seed_data_creation": "None (localStorage-only demo state).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Live Gemini via /api/ai/* is fully wired same-origin. Tutor answers arrive in 1-5s and include source badge + 'Gemini 3 Flash' badge. Quiz generation takes ~9s to render 5 questions; be patient before selecting options. Upload path currently masks the 'Extracted with Gemini' chip because of a race with the fixed processing animation (~4.5s < 5s extract). Preview URL: https://ai-tutor-demo-11.preview.emergentagent.com .",
+  "rca of the issue": "Upload chip race: upload.js:63 kicks off API.aiExtract() without awaiting it; steps interval (5 * 900ms = 4500ms) triggers showSummary() before /api/ai/extract resolves (~5000ms observed), so aiTopics is null and the 'Extracted with Gemini' chip branch (upload.js:101) is skipped. Mitigation: await Promise.race([extractPromise, delay(~7s)]) before rendering summary, or re-render the summary once extract resolves."
+}

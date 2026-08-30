@@ -1,4 +1,4 @@
-/* global Store, UI, DEMO, gsap */
+var { Store, UI, DEMO, gsap } = window;
 /* App shell: renders sidebar + topbar, guards auth, wires page transitions */
 window.Layout = {
   nav: [

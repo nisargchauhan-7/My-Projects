@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, Store, DEMO, gsap } = window;
 /* AI Tutor — grounded in the uploaded material */
 (async function(){
   const topicId = new URLSearchParams(location.search).get('topic') || 't5';
@@ -24,7 +24,7 @@
               ${DEMO.topics.map(x=>`<option value="${x.id}" ${x.id===topicId?'selected':''}>${UI.esc(x.name)}</option>`).join('')}
             </select>
           </div>
-          <span class="grounded-badge">${UI.icons.spark} Grounded in your material</span>
+          <span class="grounded-badge">${UI.icons.spark} ${window.CONFIG && window.CONFIG.AI_ENABLED ? 'Grounded · Gemini' : 'Grounded in your material'}</span>
         </div>
         <div class="chat-body" id="chat-body" aria-live="polite">
           <div class="msg ai"><div class="mini-av">${UI.icons.logo}</div>
@@ -67,9 +67,11 @@
   }
   function pushAI(res){
     const tp = document.getElementById('typing'); if (tp) tp.remove();
-    const sources = (res.sources||[]).map(s=>`<span class="badge-source">${UI.icons.material} ${UI.esc(s)}</span>`).join('');
+    const modelName = { 'gemini-3-flash-preview':'Gemini 3 Flash', 'gemini-3.1-pro-preview':'Gemini 3.1 Pro', 'gemini-3.5-flash':'Gemini 3.5 Flash' }[res.model] || null;
+    let badges = (res.sources||[]).map(s=>`<span class="badge-source">${UI.icons.material} ${UI.esc(s)}</span>`).join('');
+    if (modelName) badges += `<span class="badge-source" style="background:#F3EEFF;color:#7c3aed;border-color:#E9D8FD">${UI.icons.spark} ${modelName}</span>`;
     body.insertAdjacentHTML('beforeend', `<div class="msg ai"><div class="mini-av">${UI.icons.logo}</div>
-      <div><div class="bub">${UI.nl2br(res.answer)}</div>${sources?`<div class="sources">${sources}</div>`:''}</div></div>`);
+      <div><div class="bub">${UI.nl2br(res.answer)}</div>${badges?`<div class="sources">${badges}</div>`:''}</div></div>`);
     body.scrollTop = body.scrollHeight;
     if (body.lastChild) gsap.from(body.lastChild,{y:10,duration:.35});
   }
@@ -86,7 +88,16 @@
   document.getElementById('send-btn').addEventListener('click', ()=>ask(input.value));
   input.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(input.value); } });
   document.getElementById('suggests').addEventListener('click', e=>{ const b=e.target.closest('.suggest-q'); if(b) ask(b.dataset.q); });
-  document.getElementById('topic-select').addEventListener('change', e=>{ currentTopic=e.target.value; });
+  document.getElementById('topic-select').addEventListener('change', e=>{
+    currentTopic = e.target.value;
+    const nt = DEMO.topics.find(x=>x.id===currentTopic) || t;
+    input.placeholder = `Ask about ${nt.name}…`;
+    const ns = suggestions[currentTopic] || suggestions.default;
+    document.getElementById('suggests').innerHTML = ns.map(q=>`<button class="suggest-q" data-q="${UI.esc(q)}">${UI.esc(q)}</button>`).join('');
+    body.insertAdjacentHTML('beforeend', `<div class="msg ai"><div class="mini-av">${UI.icons.logo}</div><div><div class="bub">Now grounded in <strong>${UI.esc(nt.name)}</strong> — ask me anything about it.</div></div></div>`);
+    body.scrollTop = body.scrollHeight;
+    if (body.lastChild) gsap.from(body.lastChild,{y:10,duration:.3});
+  });
 
   Layout.enter();
 })();

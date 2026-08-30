@@ -1,4 +1,4 @@
-/* global CONFIG, DEMO, Store, Mastery, UI */
+var { CONFIG, DEMO, Store, Mastery } = window;
 /* ============================================================
    API abstraction. DEMO mode = client-side (Store/DEMO).
    When CONFIG.API_BASE_URL is set, calls the Node/Express backend.
@@ -65,19 +65,44 @@ window.API = {
   },
 
   async askTutor(topicId, question) {
-    if (CONFIG.DEMO_MODE) return demoTutor(topicId, question);
-    try { return await this._req('/api/tutor/ask', { method:'POST', body: JSON.stringify({ topicId, question }) }); }
-    catch(e){ return demoTutor(topicId, question); }
+    const topicName = (DEMO.topics.find(t => t.id === topicId) || {}).name || 'this topic';
+    if (CONFIG.AI_ENABLED) {
+      try {
+        const r = await fetch(CONFIG.AI_API + '/api/ai/tutor', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topicId, topicName, question, model: CONFIG.AI_MODEL })
+        });
+        if (r.ok) { const d = await r.json(); if (d && d.answer && !d.error) return { answer: d.answer, sources: d.sources || [topicName], grounded: true, model: d.model }; }
+      } catch (e) { /* fall back to demo */ }
+    }
+    return demoTutor(topicId, question);
   },
 
   async quiz(topicId) {
-    if (CONFIG.DEMO_MODE) {
-      await wait(150);
-      const qs = (DEMO.questions[topicId]||[]).slice(0,5);
-      return { topicId, questions: qs };
+    const topicName = (DEMO.topics.find(t => t.id === topicId) || {}).name;
+    if (CONFIG.AI_ENABLED && topicName) {
+      try {
+        const r = await fetch(CONFIG.AI_API + '/api/ai/quiz', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topicName, difficulty: 'medium', count: 5, model: CONFIG.AI_MODEL })
+        });
+        if (r.ok) { const d = await r.json(); if (d.questions && d.questions.length >= 3) return { topicId, questions: d.questions, ai: true, model: d.model }; }
+      } catch (e) { /* fall back to seeded questions */ }
     }
-    try { return await this._req('/api/quizzes/generate', { method:'POST', body: JSON.stringify({ topicId }) }); }
-    catch(e){ CONFIG.API_BASE_URL=''; return this.quiz(topicId); }
+    await wait(150);
+    return { topicId, questions: (DEMO.questions[topicId] || []).slice(0, 5) };
+  },
+
+  async aiExtract(text) {
+    if (!CONFIG.AI_ENABLED) return null;
+    try {
+      const r = await fetch(CONFIG.AI_API + '/api/ai/extract', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text || '', model: CONFIG.AI_MODEL })
+      });
+      if (r.ok) { const d = await r.json(); if (d.topics && d.topics.length) return d.topics; }
+    } catch (e) { /* fall back */ }
+    return null;
   },
 
   async submitQuiz(topicId, questions, selections) {

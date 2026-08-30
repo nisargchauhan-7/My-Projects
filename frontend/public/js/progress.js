@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, DEMO, Mastery, gsap } = window;
 /* Progress / Mastery Dashboard (Screen 12) + Weak Topic Analysis (Screen 10) */
 (async function(){
   Layout.mount('progress', { title:'Progress', crumb:'Mastery over time · learning profile' });

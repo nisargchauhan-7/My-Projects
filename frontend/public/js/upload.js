@@ -1,9 +1,10 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, DEMO, gsap } = window;
 /* Upload Study Material + AI Processing sequence */
 (function(){
   Layout.mount('material', { title:'Study Material', crumb:'Upload → AI processing → topic extraction' });
   const el = document.getElementById('page-content');
 
+  let aiTopics = null;
   renderUpload();
 
   function renderUpload() {
@@ -58,6 +59,8 @@
   }
 
   function startProcessing(file) {
+    aiTopics = null;
+    const extractP = API.aiExtract('Transport layer of Computer Networks covering the OSI model, TCP/IP, flow control, routing, congestion control, the AIMD algorithm, slow start and TCP congestion avoidance.').then(t => { aiTopics = t; }).catch(() => {});
     const size = file.size ? (file.size/1024/1024).toFixed(1)+' MB' : '1.1 MB';
     const steps = ['Reading document…','Extracting concepts…','Identifying topics…','Building learning structure…','Preparing assessment…'];
     el.innerHTML = `
@@ -82,12 +85,15 @@
     const iv = setInterval(()=>{
       i++;
       if (i<steps.length){ st.textContent=steps[i]; bar.style.width=((i+1)/steps.length*100)+'%'; }
-      else { clearInterval(iv); bar.style.width='100%'; setTimeout(showSummary, 500); }
+      else { clearInterval(iv); bar.style.width='100%';
+        st.textContent = 'Finalizing analysis…';
+        Promise.race([extractP, new Promise(r => setTimeout(r, 4000))]).then(() => setTimeout(showSummary, 300));
+      }
     }, 900);
   }
 
   function showSummary() {
-    const topics = DEMO.topics.length;
+    const topics = aiTopics ? aiTopics.length : DEMO.topics.length;
     const concepts = DEMO.topics.reduce((a,t)=>a+t.keyConcepts.length+t.definitions.length,0);
     const questions = Object.values(DEMO.questions).reduce((a,q)=>a+q.length,0);
     el.innerHTML = `
@@ -95,7 +101,7 @@
         <div class="text-center mb-4">
           <div class="ico green mx-auto" style="width:56px;height:56px;border-radius:16px">${UI.icons.check}</div>
           <h2 class="mt-3 mb-1" data-testid="analysis-complete">Material analyzed</h2>
-          <p class="text-muted-2">Your learning path for <strong>${UI.esc(DEMO.subject.name)}</strong> is ready.</p>
+          <p class="text-muted-2">Your learning path for <strong>${UI.esc(DEMO.subject.name)}</strong> is ready.${aiTopics ? ' <span class="chip ai">'+UI.icons.spark+' Extracted with Gemini</span>' : ''}</p>
         </div>
         <div class="row g-3 mb-4">
           ${[['Topics found',topics,'violet',UI.icons.layers],['Concepts identified',concepts,'blue',UI.icons.spark],['Questions prepared',questions,'amber',UI.icons.quiz],['Learning path','Ready','green',UI.icons.check]]

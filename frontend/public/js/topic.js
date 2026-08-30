@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, Store, DEMO, Mastery } = window;
 /* Topic Learning */
 (async function(){
   const id = new URLSearchParams(location.search).get('id') || 't5';

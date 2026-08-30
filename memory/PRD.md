@@ -26,6 +26,12 @@ The Emergent environment can only host FastAPI+MongoDB+React. The user required 
 - ✅ Deterministic mastery scoring + measurable improvement (AIMD 36%→~54-60% after quiz) — verified by testing agent (100%) and Node harness + curl on the backend.
 - ✅ Demo/fallback reliability (works with no backend/Gemini); GSAP made non-gating.
 - ✅ Node/Express/MySQL backend runs (demo mode verified via curl: auth, dashboard, topics, quiz generate/submit, tutor, revision, register).
+- ✅ Email/Password auth (register + login + validation + errors): client-side SHA-256 salted store in preview; Node backend uses bcrypt+JWT. Verified 9/9.
+- ✅ LIVE Gemini in preview via Emergent backend proxy (`/api/ai/tutor|quiz|extract|status`, Emergent Universal key, model `gemini-3-flash-preview`, selectable 3.1-pro/3.5-flash). Grounded AI Tutor (with source + Gemini badges), AI quiz generation, and topic extraction on upload — all with demo fallback + 35s timeout guard. Verified 6/6 frontend, 4/4 backend. Node backend keeps its own `@google/generative-ai` integration for self-host.
+
+## Fixes (2026-06-30)
+- ✅ Resolved oxlint blocker: `.oxlintrc.json` has `env.browser` — now 0 errors (19 non-blocking warnings).
+- ✅ Fixed root-URL directory listing: `serve` was showing an "Index of public" file listing at `/` instead of loading the app. Root cause: serve-handler only resolves `index.html` for a directory when `cleanUrls` is true or a rewrite exists (rewrites break due to pinned `path-to-regexp@0.1.13`). Set `cleanUrls: true` + `directoryListing: false` in `/app/frontend/public/serve.json`. Root now serves `index.html`; `.html` URLs 301 to clean paths and serve correctly. Verified all pages 200 + demo login → dashboard.
 
 ## User personas
 - College student revising a subject from their own material; wants to know precisely what to study next and see measurable progress.

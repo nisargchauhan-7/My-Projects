@@ -1,4 +1,4 @@
-/* global Mastery, gsap */
+var { Mastery, gsap } = window;
 /* UI helpers: icons, toast, radial progress, animation utilities */
 window.UI = {
   icons: {

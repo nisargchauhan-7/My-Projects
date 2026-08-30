@@ -1,4 +1,4 @@
-/* global CONFIG, DEMO, Mastery */
+var { CONFIG, DEMO, Mastery } = window;
 /* ============================================================
    Client-side state (localStorage) — the "student's learning history"
    In demo mode this stands in for the MySQL-backed backend.

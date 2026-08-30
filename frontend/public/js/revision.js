@@ -1,4 +1,4 @@
-/* global Layout, UI, API, Store, DEMO, Mastery, gsap */
+var { Layout, UI, API, Mastery, gsap } = window;
 /* Personalized Revision Plan (Screen 11) */
 (async function(){
   Layout.mount('learning', { title:'Revision Plan', crumb:'Generated from your performance' });
