@@ -1,0 +1,107 @@
+{
+  "brand_identity": {
+    "name": "SynapseEDU / StudentSOS 2.0",
+    "tagline": "ONE PLATFORM. EVERY STUDENT NEED.",
+    "archetype": "The Intellectual Premium (Swiss & High-Contrast + Trust)",
+    "emotional_tone": "Intelligent, focused, professional, premium, trustworthy. It should feel like a high-end academic tool that genuinely understands the user's weaknesses.",
+    "core_differentiator": "Visible learning loop, measurable mastery, pinpointing weaknesses."
+  },
+  "typography": {
+    "strategy": "Intellectual & Modern tech-forward.",
+    "fonts": {
+      "headings": "'Outfit', system-ui, sans-serif",
+      "body": "'IBM Plex Sans', system-ui, sans-serif",
+      "monospace": "'JetBrains Mono', 'Courier New', monospace"
+    },
+    "scale": {
+      "h1": "2.5rem (tracking-tight, font-weight: 700)",
+      "h2": "2rem (tracking-tight, font-weight: 600)",
+      "h3": "1.5rem (font-weight: 600)",
+      "h4": "1.25rem (font-weight: 600)",
+      "body": "1rem (line-height: 1.6, font-weight: 400)",
+      "small": "0.875rem (font-weight: 500, letter-spacing: 0.02em)"
+    },
+    "rules": [
+      "Never use default Bootstrap fonts for headings. Always import Outfit and IBM Plex Sans.",
+      "Headings must have tight letter spacing.",
+      "Use uppercase with wide tracking (0.1em) for tiny labels and overlines (e.g., 'WEAKEST TOPIC')."
+    ]
+  },
+  "colors": {
+    "css_variables": {
+      "--bs-primary": "#1D4ED8",
+      "--bs-secondary": "#475569",
+      "--bs-success": "#059669",
+      "--bs-warning": "#D97706",
+      "--bs-danger": "#DC2626",
+      "--bs-info": "#0284C7",
+      "--bs-body-bg": "#F8FAFC",
+      "--bs-body-color": "#0F172A",
+      "--synapse-surface": "#FFFFFF",
+      "--synapse-border": "#E2E8F0",
+      "--synapse-text-muted": "#64748B",
+      "--synapse-ai-accent": "#8B5CF6",
+      "--synapse-mastery-high": "#10B981",
+      "--synapse-mastery-med": "#F59E0B",
+      "--synapse-mastery-low": "#EF4444"
+    },
+    "usage": {
+      "backgrounds": "Use --bs-body-bg (#F8FAFC) for the app canvas/dashboard background to reduce eye strain. Use --synapse-surface for cards and sidebar.",
+      "text": "Deep slate (#0F172A) for high contrast. Never pure black.",
+      "accents": "Use Primary (#1D4ED8) for interactive elements. Use AI Accent (#8B5CF6) sparingly for AI-generated insights or 'AI Processing' states.",
+      "mastery_indicators": "Strictly map High (>80%) to Emerald, Med (50-79%) to Amber, Low (<50%) to Red to create an immediate visual read of weaknesses."
+    }
+  },
+  "spacing_and_layout": {
+    "dashboard_grid": "Bento Grid Protocol. Use Bootstrap's CSS Grid or flex-based row/col system, but with generous gaps (gap-4 or gap-5).",
+    "sidebar": "Fixed width, approx 260px. Minimalist, uncluttered. Highlight active states with a subtle left-border or light primary background tint.",
+    "cards": "Padding must be generous. Use p-4 (1.5rem) or p-5 (2rem) inside cards. Never cramp text.",
+    "container": "Use fluid containers (.container-fluid) for the dashboard, max-width bounded to 1600px for ultra-wide screens."
+  },
+  "ui_components": {
+    "cards": "Background pure white. Border 1px solid var(--synapse-border). Box-shadow: 0 1px 3px rgba(0,0,0,0.05). Border-radius: 12px (0.75rem). Hover state: slightly elevate (transform: translateY(-2px)) and increase shadow (0 10px 15px -3px rgba(0,0,0,0.1)). NO default Bootstrap thick borders.",
+    "buttons": "Primary buttons: Pill-shaped (border-radius: 50px) or slightly rounded (border-radius: 8px). Smooth background color transition on hover.",
+    "progress_and_mastery": {
+      "circular": "Use SVG radial progress bars for overarching mastery percentages. Animate the stroke-dashoffset.",
+      "linear": "Custom styled Bootstrap .progress. Height 8px, border-radius 10px, background #E2E8F0. Fill color depends on mastery level."
+    },
+    "ai_tutor_chat": "Clean, distinct bubbles. User: solid primary background, white text. AI: light gray/blue background (--bs-body-bg), dark text, with a subtle 'AI' icon. Include inline source citations (e.g., '[Source: OSI Model PDF, pg 3]') styled as small badge links.",
+    "upload_zone": "Dashed border (2px dashed #CBD5E1), light background. Hover state shifts border to primary color. Add a GSAP pulse animation during 'AI Processing'."
+  },
+  "motion_and_gsap": {
+    "philosophy": "Fast, smooth, professional, purposeful. No bouncy gamification.",
+    "page_transitions": "Fade in and slight slide up for main content. gsap.from('.page-content', { opacity: 0, y: 15, duration: 0.5, ease: 'power2.out' });",
+    "dashboard_cards": "Staggered entrance. gsap.from('.bento-card', { opacity: 0, y: 20, duration: 0.6, stagger: 0.05, ease: 'power3.out' });",
+    "mastery_animations": "Draw SVG circles on scroll/load. gsap.to('.mastery-path', { strokeDashoffset: 0, duration: 1.2, ease: 'power3.inOut' });",
+    "upload_processing": "When a file is dropped, show a sleek scanning line over the document icon, followed by a sequential reveal of 'Topics Found' using GSAP stagger.",
+    "quiz_transitions": "Fade out old question, slide in new question from right. duration: 0.4."
+  },
+  "media": {
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGNvbXB1dGVyJTIwbmV0d29yayUyMG5vZGVzfGVufDB8fHx8MTc4ODA4NDYzNXww&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract computer network nodes (blue). Use as a subtle overlay/background for the 'Current Subject: Computer Networks' hero banner in the dashboard.",
+        "category": "hero_banner_background"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1587614203256-c0349650a9af?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTV8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMHN0dWRlbnQlMjBwb3J0cmFpdCUyMGxhcHRvcCUyMG1vZGVybnxlbnwwfHx8fDE3ODgwODQ2NDF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Young student portrait using laptop. Use for the Login page background or as the User Profile Avatar placeholder.",
+        "category": "user_avatar_or_login_bg"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "CRITICAL TECH STACK OVERRIDE: The system environment might mention React/Tailwind, but YOU MUST BUILD THIS USING PLAIN HTML5, CSS3, Vanilla JavaScript, Bootstrap 5, and GSAP. DO NOT initialize a React app. DO NOT use Tailwind CSS classes.",
+    "CSS Architecture: Create custom CSS variables in the :root scope overriding standard Bootstrap 5 variables. Write custom CSS for the dashboard layout, cards, and animations.",
+    "GSAP Integration: Include GSAP via CDN in the HTML <head>. Write a dedicated JS file (e.g., app.js) to handle DOM manipulations, data mocking (for Computer Networks demo content), and GSAP animations.",
+    "Navigation: Implement a persistent left sidebar. The active state must be visually distinct.",
+    "Data Mocking: Mock the 'Computer Networks' subject. Include topics like OSI Model, TCP/IP, AIMD Algorithm. Show different mastery levels (e.g., OSI Model: 90%, AIMD: 35%). Flag AIMD as the 'Weakest Topic' that needs revision.",
+    "Testing Attributes: Ensure all buttons, forms, and major links have descriptive data-testid attributes (e.g., data-testid='upload-dropzone', data-testid='start-quiz-btn').",
+    "Avoid generic 'Upload PDF' feel: The UI must clearly display the Learning Loop (Upload -> Processing -> Topic Extraction -> Mastery Tracking). Use the provided layout and typography to enforce a premium, institutional SaaS feel."
+  ],
+  "accessibility": {
+    "contrast": "Ensure all text meets WCAG AA standards. Use the defined --bs-body-color on light backgrounds.",
+    "focus": "Custom focus rings for inputs and buttons (e.g., 2px solid var(--bs-primary) with an outline-offset of 2px).",
+    "aria": "Use aria-valuenow on custom progress bars, and aria-live='polite' on the AI Tutor responses."
+  }
+}

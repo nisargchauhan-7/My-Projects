@@ -1,0 +1,40 @@
+/* Quiz interface */
+.quiz-wrap { max-width: 780px; margin: 0 auto; }
+.quiz-progress-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.quiz-progress-head .q-count { font-family:'JetBrains Mono'; font-weight:600; color:var(--synapse-text-muted); font-size:.85rem; }
+.quiz-progress-track { height:6px; background:#E2E8F0; border-radius:20px; overflow:hidden; }
+.quiz-progress-track > span { display:block; height:100%; background:linear-gradient(90deg,#1D4ED8,#6366F1); border-radius:20px; transition: width .5s cubic-bezier(.22,1,.36,1); }
+
+.q-card { padding: 34px; }
+.q-text { font-family:'Outfit'; font-weight:600; font-size:1.45rem; line-height:1.35; letter-spacing:-.02em; margin: 18px 0 26px; }
+
+.opt {
+  display:flex; align-items:center; gap:16px; padding:16px 18px; border:1.5px solid var(--synapse-border);
+  border-radius:12px; margin-bottom:12px; cursor:pointer; background:#fff;
+  transition: border-color .16s, background-color .16s, transform .1s;
+}
+.opt:hover { border-color:#C7D2FE; background:#FBFCFF; }
+.opt .key {
+  width:32px;height:32px;border-radius:9px; flex:0 0 auto; display:grid;place-items:center;
+  font-weight:700; font-family:'Outfit'; background:#F1F5F9; color:var(--synapse-ink-2); transition:all .16s;
+  margin-right:4px;
+}
+.opt .opt-text { flex:1 1 auto; }
+.opt.selected { border-color:var(--bs-primary); background:#EFF4FF; }
+.opt.selected .key { background:var(--bs-primary); color:#fff; }
+.opt.correct { border-color:var(--mastery-high); background:#ECFDF5; }
+.opt.correct .key { background:var(--mastery-high); color:#fff; }
+.opt.wrong { border-color:var(--mastery-low); background:#FEF2F2; }
+.opt.wrong .key { background:var(--mastery-low); color:#fff; }
+.opt.disabled { pointer-events:none; }
+
+.q-explain {
+  margin-top:8px; padding:14px 16px; border-radius:12px; background:#F8FAFC; border:1px solid var(--synapse-border);
+  font-size:.88rem; color:var(--synapse-ink-2);
+}
+.q-explain .lbl { font-weight:700; color:var(--bs-primary); }
+
+/* Results */
+.result-score .radial .label .v { font-size:2.4rem; }
+.perf-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--synapse-border); }
+.perf-row:last-child{border-bottom:0;}

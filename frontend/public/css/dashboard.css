@@ -1,0 +1,78 @@
+/* Dashboard + Topics + Analysis + Revision + Progress styles */
+
+.hero-banner {
+  position: relative; overflow: hidden;
+  border-radius: 16px; padding: 30px 32px; color: #fff;
+  background: linear-gradient(115deg, #0F172A 0%, #1E3A8A 55%, #1D4ED8 100%);
+  box-shadow: var(--shadow-md);
+}
+.hero-banner .bg-net {
+  position:absolute; inset:0; object-fit:cover; width:100%; height:100%;
+  opacity:.16; mix-blend-mode:luminosity;
+}
+.hero-banner .content { position: relative; z-index:2; }
+.hero-banner h1 { color:#fff; }
+.hero-banner .subject-name { font-family:'Outfit'; font-weight:700; font-size:1.9rem; letter-spacing:-.03em; }
+
+.bento { display:grid; grid-template-columns: repeat(12, 1fr); gap:20px; }
+.bento .col-span-3 { grid-column: span 3; }
+.bento .col-span-4 { grid-column: span 4; }
+.bento .col-span-5 { grid-column: span 5; }
+.bento .col-span-6 { grid-column: span 6; }
+.bento .col-span-7 { grid-column: span 7; }
+.bento .col-span-8 { grid-column: span 8; }
+.bento .col-span-12 { grid-column: span 12; }
+@media (max-width: 1200px){ .bento .col-span-3{grid-column:span 6;} .bento .col-span-4{grid-column:span 6;} .bento .col-span-5,.bento .col-span-7,.bento .col-span-8{grid-column:span 12;} }
+@media (max-width: 768px){ .bento > *{grid-column:span 12 !important;} }
+
+.stat-card .ico {
+  width:40px;height:40px;border-radius:11px;display:grid;place-items:center;margin-bottom:14px;
+}
+.ico.blue{ background:#EFF4FF;color:#1D4ED8; }
+.ico.green{ background:#ECFDF5;color:#059669; }
+.ico.amber{ background:#FFFBEB;color:#D97706; }
+.ico.red{ background:#FEF2F2;color:#DC2626; }
+.ico.violet{ background:var(--synapse-ai-accent-soft);color:#7c3aed; }
+
+.reco-card {
+  border:1px solid #DBE4FF; background: linear-gradient(180deg,#FBFCFF, #F3F7FF);
+}
+.reco-card .why {
+  font-size:.8rem; color:var(--synapse-text-muted);
+  background:#fff; border:1px dashed #C7D2FE; border-radius:10px; padding:10px 12px; margin-top:12px;
+}
+
+.activity-row { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--synapse-border); }
+.activity-row:last-child{ border-bottom:0; }
+.activity-row .dot { width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto; }
+
+/* Topic explorer list */
+.topic-item {
+  display:flex; align-items:center; gap:18px; padding:16px 18px; border:1px solid var(--synapse-border);
+  border-radius:12px; background:#fff; cursor:pointer; transition:transform .18s, box-shadow .18s, border-color .18s;
+}
+.topic-item:hover { transform: translateX(3px); box-shadow: var(--shadow-md); border-color:#C7D2FE; }
+.topic-item .idx { font-family:'JetBrains Mono'; font-weight:600; color:#94A3B8; width:34px; flex:0 0 auto; font-size:.95rem; }
+.topic-item .t-name { font-family:'Outfit'; font-weight:600; font-size:1.02rem; }
+.topic-item .t-meta { font-size:.78rem; color:var(--synapse-text-muted); }
+.topic-item.weak { border-color:#FECACA; background: linear-gradient(180deg,#fff,#FFF8F8); }
+.weak-flag { font-size:.64rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#DC2626; background:#FEF2F2; padding:3px 8px; border-radius:20px; }
+
+/* Analysis bars */
+.profile-bar-row { display:grid; grid-template-columns: 180px 1fr 54px; align-items:center; gap:16px; padding:9px 0; }
+.profile-bar-row .nm { font-weight:600; font-size:.9rem; }
+.profile-bar-row .pct { text-align:right; font-family:'JetBrains Mono'; font-weight:600; font-size:.9rem; }
+@media(max-width:600px){ .profile-bar-row{ grid-template-columns: 120px 1fr 46px; } }
+
+/* Revision plan */
+.rev-item { display:flex; gap:18px; padding:20px; border:1px solid var(--synapse-border); border-radius:14px; background:#fff; }
+.rev-item .num {
+  font-family:'Outfit'; font-weight:700; font-size:1.5rem; color:#fff; width:48px;height:48px;border-radius:12px;
+  display:grid;place-items:center;flex:0 0 auto; background:linear-gradient(135deg,#1D4ED8,#6366F1);
+}
+.rev-item.p2 .num { background:linear-gradient(135deg,#0EA5E9,#0284C7); }
+.rev-item .rev-time { font-size:.78rem; font-weight:600; color:var(--bs-primary); }
+
+/* progress chart */
+.chart-svg { width:100%; height:auto; }
+.legend-dot { width:10px;height:10px;border-radius:50%; display:inline-block; margin-right:6px; }

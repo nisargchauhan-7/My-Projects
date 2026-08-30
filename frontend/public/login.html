@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · SynapseEDU</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<style>
+  body{ overflow:hidden; }
+  .auth-wrap{ display:grid; grid-template-columns:1.05fr .95fr; min-height:100vh; }
+  .auth-visual{ position:relative; background:linear-gradient(150deg,#0B1220 0%,#12224A 55%,#1D4ED8 120%); color:#fff; overflow:hidden; padding:56px; display:flex; flex-direction:column; }
+  .auth-visual .net{ position:absolute; inset:0; object-fit:cover; width:100%; height:100%; opacity:.22; mix-blend-mode:luminosity; }
+  .auth-visual .glow{ position:absolute; width:520px;height:520px; border-radius:50%; background:radial-gradient(circle,rgba(139,92,246,.5),transparent 65%); bottom:-160px; right:-120px; filter:blur(20px); }
+  .auth-visual .content{ position:relative; z-index:2; }
+  .loop-chip{ display:inline-flex; align-items:center; gap:8px; font-size:.74rem; font-weight:600; letter-spacing:.05em; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); padding:7px 14px; border-radius:30px; backdrop-filter:blur(6px); }
+  .loop-list{ list-style:none; padding:0; margin:34px 0 0; }
+  .loop-list li{ display:flex; align-items:center; gap:14px; padding:11px 0; font-size:.98rem; }
+  .loop-list li .n{ width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'JetBrains Mono';font-weight:600;font-size:.8rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2); flex:0 0 auto; }
+  .auth-form-side{ display:flex; align-items:center; justify-content:center; padding:40px; }
+  .auth-card{ width:100%; max-width:400px; }
+  @media(max-width:900px){ .auth-wrap{ grid-template-columns:1fr; } .auth-visual{ display:none; } }
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <section class="auth-visual">
+    <img class="net" src="https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&q=85&w=1400" alt="">
+    <div class="glow"></div>
+    <div class="content d-flex flex-column h-100">
+      <div class="brand" style="color:#fff">
+        <span class="logo-mark" id="logo-slot"></span>
+        <span style="color:#fff">SynapseEDU<small style="color:rgba(255,255,255,.6)">Learning Hub</small></span>
+      </div>
+      <div class="mt-auto">
+        <span class="loop-chip">● StudentSOS 2.0 · Round 2</span>
+        <h1 class="mt-3" style="color:#fff; font-size:2.5rem; max-width:460px; line-height:1.1">Learn what you don't know. Not what you already do.</h1>
+        <p style="color:rgba(255,255,255,.72); max-width:440px; margin-top:14px">SynapseEDU reads your study material, finds your weakest concepts, and tells you exactly what to revise next.</p>
+        <ul class="loop-list" id="loop-list">
+          <li><span class="n">1</span> Upload your study material</li>
+          <li><span class="n">2</span> AI extracts topics &amp; builds your profile</li>
+          <li><span class="n">3</span> Assess, detect weak areas, improve mastery</li>
+        </ul>
+      </div>
+      <div class="content" style="margin-top:auto; padding-top:28px; font-size:.78rem; color:rgba(255,255,255,.5)">ONE PLATFORM. EVERY STUDENT NEED.</div>
+    </div>
+  </section>
+
+  <section class="auth-form-side">
+    <div class="auth-card">
+      <div class="brand d-md-none mb-4"><span class="logo-mark" id="logo-slot-2"></span><span>SynapseEDU</span></div>
+      <div class="overline">Welcome back</div>
+      <h2 class="mb-1">Sign in to continue</h2>
+      <p class="text-muted-2 mb-4" style="font-size:.9rem">Access your personalized Computer Networks learning profile.</p>
+
+      <form id="login-form">
+        <label class="form-label small fw-semibold">Email</label>
+        <input type="email" class="form-control mb-3" id="email" value="demo@synapse.edu" data-testid="login-email" placeholder="you@college.edu">
+        <label class="form-label small fw-semibold">Password</label>
+        <input type="password" class="form-control mb-3" id="password" value="demo1234" data-testid="login-password" placeholder="••••••••">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="remember" checked data-testid="remember-me">
+            <label class="form-check-label small" for="remember">Remember me</label>
+          </div>
+          <a href="#" class="small">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-pill mb-3" id="login-btn" data-testid="login-submit">Sign in</button>
+      </form>
+      <button class="btn btn-outline-slate w-100 btn-pill" id="demo-btn" data-testid="demo-login">⚡ Quick demo login</button>
+      <p class="text-muted-2 text-center mt-4" style="font-size:.78rem">No account needed for the demo — just click above.</p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/demo-data.js"></script>
+<script src="js/mastery.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/state.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
