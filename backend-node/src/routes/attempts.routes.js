@@ -2,8 +2,6 @@ const router = require('express').Router();
 const c = require('../controllers/performance.controller');
 const { authRequired } = require('../middleware/auth');
 
-router.get('/', authRequired, c.overview);
-router.get('/dashboard', authRequired, c.dashboard);
-router.get('/revision', authRequired, c.revision);
+router.get('/', authRequired, c.attempts);
 
 module.exports = router;

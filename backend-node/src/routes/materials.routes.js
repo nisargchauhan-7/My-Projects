@@ -10,6 +10,7 @@ const upload = multer({
 });
 
 router.post('/upload', authRequired, upload.single('file'), c.upload);
+router.post('/extract', authRequired, c.extract);
 router.get('/', authRequired, c.list);
 
 module.exports = router;

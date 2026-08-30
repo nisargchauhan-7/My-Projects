@@ -24,7 +24,7 @@ var { Layout, UI, API, Store, DEMO, gsap } = window;
               ${DEMO.topics.map(x=>`<option value="${x.id}" ${x.id===topicId?'selected':''}>${UI.esc(x.name)}</option>`).join('')}
             </select>
           </div>
-          <span class="grounded-badge">${UI.icons.spark} ${window.CONFIG && window.CONFIG.AI_ENABLED ? 'Grounded · Gemini' : 'Grounded in your material'}</span>
+          <span class="grounded-badge">${UI.icons.spark} Grounded in your material</span>
         </div>
         <div class="chat-body" id="chat-body" aria-live="polite">
           <div class="msg ai"><div class="mini-av">${UI.icons.logo}</div>

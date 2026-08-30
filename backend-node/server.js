@@ -23,7 +23,7 @@ app.use(errorHandler);
 (async () => {
   await db.init();
   app.listen(env.PORT, () => {
-    console.log(`SynapseEDU API listening on :${env.PORT}  [AI_MODE=${env.AI_MODE}, DB=${db.connected ? 'mysql' : 'in-memory demo'}]`);
+    console.log(`SynapseEDU API listening on :${env.PORT}  [DEMO_MODE=${env.DEMO_MODE}, AI=${require('./src/services/geminiService').enabled ? 'gemini' : 'demo'}, DB=${db.connected ? 'mysql' : 'in-memory demo'}]`);
   });
 })();
 

@@ -23,6 +23,7 @@ exports.login = async (req, res, next) => {
     if (!row || !bcrypt.compareSync(password, row.password_hash)) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+    await store.ensureBaseline(row.id);
     const user = { id: row.id, name: row.name, email: row.email };
     res.json({ user, token: sign(user) });
   } catch (e) { next(e); }

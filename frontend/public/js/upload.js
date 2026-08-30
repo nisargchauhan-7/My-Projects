@@ -5,6 +5,7 @@ var { Layout, UI, API, DEMO, gsap } = window;
   const el = document.getElementById('page-content');
 
   let aiTopics = null;
+  let uploadResult = null;
   renderUpload();
 
   function renderUpload() {
@@ -59,8 +60,13 @@ var { Layout, UI, API, DEMO, gsap } = window;
   }
 
   function startProcessing(file) {
-    aiTopics = null;
-    const extractP = API.aiExtract('Transport layer of Computer Networks covering the OSI model, TCP/IP, flow control, routing, congestion control, the AIMD algorithm, slow start and TCP congestion avoidance.').then(t => { aiTopics = t; }).catch(() => {});
+    aiTopics = null; uploadResult = null;
+    let extractP;
+    if (file instanceof File) {
+      extractP = API.uploadMaterial(file).then(r => { uploadResult = r; }).catch(() => {});
+    } else {
+      extractP = API.aiExtract('Transport layer of Computer Networks covering the OSI model, TCP/IP, flow control, routing, congestion control, the AIMD algorithm, slow start and TCP congestion avoidance.').then(t => { aiTopics = t; }).catch(() => {});
+    }
     const size = file.size ? (file.size/1024/1024).toFixed(1)+' MB' : '1.1 MB';
     const steps = ['Reading document…','Extracting concepts…','Identifying topics…','Building learning structure…','Preparing assessment…'];
     el.innerHTML = `
@@ -93,15 +99,16 @@ var { Layout, UI, API, DEMO, gsap } = window;
   }
 
   function showSummary() {
-    const topics = aiTopics ? aiTopics.length : DEMO.topics.length;
-    const concepts = DEMO.topics.reduce((a,t)=>a+t.keyConcepts.length+t.definitions.length,0);
-    const questions = Object.values(DEMO.questions).reduce((a,q)=>a+q.length,0);
+    const extracted = (uploadResult && uploadResult.extracted) || !!aiTopics;
+    const topics = uploadResult ? uploadResult.topicsFound : (aiTopics ? aiTopics.length : DEMO.topics.length);
+    const concepts = uploadResult ? uploadResult.conceptsIdentified : DEMO.topics.reduce((a,t)=>a+t.keyConcepts.length+t.definitions.length,0);
+    const questions = uploadResult ? uploadResult.questionsPrepared : Object.values(DEMO.questions).reduce((a,q)=>a+q.length,0);
     el.innerHTML = `
       <div class="mx-auto" style="max-width:720px">
         <div class="text-center mb-4">
           <div class="ico green mx-auto" style="width:56px;height:56px;border-radius:16px">${UI.icons.check}</div>
           <h2 class="mt-3 mb-1" data-testid="analysis-complete">Material analyzed</h2>
-          <p class="text-muted-2">Your learning path for <strong>${UI.esc(DEMO.subject.name)}</strong> is ready.${aiTopics ? ' <span class="chip ai">'+UI.icons.spark+' Extracted with Gemini</span>' : ''}</p>
+          <p class="text-muted-2">Your learning path for <strong>${UI.esc(DEMO.subject.name)}</strong> is ready.${extracted ? ' <span class="chip ai">'+UI.icons.spark+' Extracted with Gemini</span>' : ''}</p>
         </div>
         <div class="row g-3 mb-4">
           ${[['Topics found',topics,'violet',UI.icons.layers],['Concepts identified',concepts,'blue',UI.icons.spark],['Questions prepared',questions,'amber',UI.icons.quiz],['Learning path','Ready','green',UI.icons.check]]
