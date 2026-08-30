@@ -49,16 +49,22 @@
   <section class="auth-form-side">
     <div class="auth-card">
       <div class="brand d-md-none mb-4"><span class="logo-mark" id="logo-slot-2"></span><span>SynapseEDU</span></div>
-      <div class="overline">Welcome back</div>
-      <h2 class="mb-1">Sign in to continue</h2>
-      <p class="text-muted-2 mb-4" style="font-size:.9rem">Access your personalized Computer Networks learning profile.</p>
+      <div class="overline" id="auth-overline">Welcome back</div>
+      <h2 class="mb-1" id="auth-title">Sign in to continue</h2>
+      <p class="text-muted-2 mb-4" style="font-size:.9rem" id="auth-sub">Access your personalized Computer Networks learning profile.</p>
 
-      <form id="login-form">
+      <div id="auth-error" class="alert alert-danger py-2 px-3 mb-3" style="display:none;font-size:.85rem" data-testid="auth-error"></div>
+
+      <form id="login-form" novalidate>
+        <div id="name-wrap" style="display:none">
+          <label class="form-label small fw-semibold">Full name</label>
+          <input type="text" class="form-control mb-3" id="name" data-testid="register-name" placeholder="Your name">
+        </div>
         <label class="form-label small fw-semibold">Email</label>
-        <input type="email" class="form-control mb-3" id="email" value="demo@synapse.edu" data-testid="login-email" placeholder="you@college.edu">
+        <input type="email" class="form-control mb-3" id="email" value="demo@synapse.edu" data-testid="login-email" placeholder="you@college.edu" autocomplete="email">
         <label class="form-label small fw-semibold">Password</label>
-        <input type="password" class="form-control mb-3" id="password" value="demo1234" data-testid="login-password" placeholder="••••••••">
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <input type="password" class="form-control mb-3" id="password" value="demo1234" data-testid="login-password" placeholder="••••••••" autocomplete="current-password">
+        <div class="d-flex align-items-center justify-content-between mb-4" id="login-extra">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="remember" checked data-testid="remember-me">
             <label class="form-check-label small" for="remember">Remember me</label>
@@ -67,8 +73,13 @@
         </div>
         <button type="submit" class="btn btn-primary w-100 btn-pill mb-3" id="login-btn" data-testid="login-submit">Sign in</button>
       </form>
+      <p class="text-center small mb-3" id="auth-toggle-wrap">
+        <span id="toggle-text">New to SynapseEDU?</span>
+        <a href="#" id="auth-toggle" data-testid="auth-toggle" class="fw-semibold">Create an account</a>
+      </p>
+      <div class="d-flex align-items-center gap-2 mb-3"><hr class="divider-soft flex-grow-1"><span class="small text-muted-2">or</span><hr class="divider-soft flex-grow-1"></div>
       <button class="btn btn-outline-slate w-100 btn-pill" id="demo-btn" data-testid="demo-login">⚡ Quick demo login</button>
-      <p class="text-muted-2 text-center mt-4" style="font-size:.78rem">No account needed for the demo — just click above.</p>
+      <p class="text-muted-2 text-center mt-3" style="font-size:.78rem">Try instantly with the demo account — or create your own.</p>
     </div>
   </section>
 </div>

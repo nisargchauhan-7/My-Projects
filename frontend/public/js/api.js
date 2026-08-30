@@ -18,13 +18,23 @@ window.API = {
 
   async login(email, password) {
     if (CONFIG.DEMO_MODE) {
-      await wait(500);
-      const name = (email||'demo@synapse.edu').split('@')[0].replace(/[._]/g,' ');
-      const user = { id:'u1', email: email||'demo@synapse.edu', name: titleCase(name)||'Demo Student' };
+      await Store.seedDemoUser();
+      const user = await Store.verifyUser(email, password);
+      if (!user) throw new Error('Invalid email or password');
       Store.setUser(user);
-      return { user, token:'demo' };
+      return { user, token: 'demo' };
     }
     const r = await this._req('/api/auth/login', { method:'POST', body: JSON.stringify({ email, password }) });
+    localStorage.setItem('synapse_token', r.token); Store.setUser(r.user); return r;
+  },
+
+  async register(name, email, password) {
+    if (CONFIG.DEMO_MODE) {
+      const user = await Store.registerUser({ name, email, password });
+      Store.setUser(user);
+      return { user, token: 'demo' };
+    }
+    const r = await this._req('/api/auth/register', { method:'POST', body: JSON.stringify({ name, email, password }) });
     localStorage.setItem('synapse_token', r.token); Store.setUser(r.user); return r;
   },
 

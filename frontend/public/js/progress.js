@@ -73,7 +73,6 @@
     const max=100,min=Math.max(0,Math.min(...data)-10);
     const x=i=>pad+(i/(Math.max(1,data.length-1)))*(w-pad*2);
     const y=v=>h-pad-((v-min)/(max-min))*(h-pad*2);
-    const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
     const d='M'+data.map((v,i)=>`${x(i)},${y(v)}`).join(' L');
     const area=`M${x(0)},${h-pad} L`+data.map((v,i)=>`${x(i)},${y(v)}`).join(' L')+` L${x(data.length-1)},${h-pad} Z`;
     const dots=data.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#1D4ED8" stroke="#fff" stroke-width="2"/>`).join('');

@@ -36,8 +36,57 @@ window.Store = {
 
   get() { return this._load(); },
   get user(){ return this._load().user; },
-  setUser(u){ this._load().user = u; this.save(); },
-  logout(){ this._load().user = null; this.save(); },
+  setUser(u){
+    const s = this._load();
+    if (u && (!s.user || s.user.email !== u.email)) {
+      // new user session -> start a fresh learning profile for this account
+      const fresh = this._fresh();
+      fresh.user = u;
+      this._s = fresh;
+    } else {
+      s.user = u;
+    }
+    this.save();
+  },
+  logout(){ this._load().user = null; this.save(); localStorage.removeItem('synapse_token'); },
+
+  // ---------- Credential store (client-side demo auth) ----------
+  AUTH_KEY: 'synapse_auth_users_v1',
+  _users(){ try { return JSON.parse(localStorage.getItem(this.AUTH_KEY)) || []; } catch(e){ return []; } },
+  _saveUsers(a){ localStorage.setItem(this.AUTH_KEY, JSON.stringify(a)); },
+  async _hash(pw, salt){
+    const enc = new TextEncoder().encode(salt + ':' + pw);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  },
+  async seedDemoUser(){
+    const users = this._users();
+    if (!users.find(u => u.email === 'demo@synapse.edu')) {
+      const salt = Math.random().toString(36).slice(2);
+      const hash = await this._hash('demo1234', salt);
+      users.push({ id:'u_demo', name:'Demo Student', email:'demo@synapse.edu', salt, hash });
+      this._saveUsers(users);
+    }
+  },
+  async registerUser({ name, email, password }){
+    email = (email||'').trim().toLowerCase();
+    if (!email || !password) throw new Error('Email and password are required');
+    if (password.length < 6) throw new Error('Password must be at least 6 characters');
+    const users = this._users();
+    if (users.find(u => u.email === email)) throw new Error('That email is already registered. Try signing in.');
+    const salt = Math.random().toString(36).slice(2);
+    const hash = await this._hash(password, salt);
+    const user = { id:'u_'+Date.now(), name: name || email.split('@')[0], email, salt, hash };
+    users.push(user); this._saveUsers(users);
+    return { id:user.id, name:user.name, email:user.email };
+  },
+  async verifyUser(email, password){
+    email = (email||'').trim().toLowerCase();
+    const u = this._users().find(x => x.email === email);
+    if (!u) return null;
+    const hash = await this._hash(password, u.salt);
+    return hash === u.hash ? { id:u.id, name:u.name, email:u.email } : null;
+  },
 
   masteryOf(id){ const s=this._load(); return s.mastery[id] ?? (DEMO.topics.find(t=>t.id===id)||{}).initialMastery ?? 0; },
 

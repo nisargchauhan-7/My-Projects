@@ -1,0 +1,15 @@
+{
+  "env": { "browser": true, "es2021": true, "node": true },
+  "globals": {
+    "CONFIG": "readonly",
+    "DEMO": "readonly",
+    "Store": "readonly",
+    "Mastery": "readonly",
+    "UI": "readonly",
+    "API": "readonly",
+    "Layout": "readonly",
+    "gsap": "readonly",
+    "bootstrap": "readonly"
+  },
+  "rules": {}
+}
